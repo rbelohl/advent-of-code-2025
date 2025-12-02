@@ -1,12 +1,11 @@
 import java.io.File
 
 fun isInvalidIdPart1(id: Long) : Boolean {
-    val str = id.toString()
-    if (str.length % 2 == 1) {
-        return false
-    }
-    val half = str.length / 2
-    return str.take(half) == str.takeLast(half)
+    return id.toString().matches("(\\d+)\\1".toRegex())
+}
+
+fun isInvalidIdPart2(id: Long) : Boolean {
+    return id.toString().matches("(\\d+)\\1+".toRegex())
 }
 
 fun main(args: Array<String>) {
@@ -19,7 +18,8 @@ fun main(args: Array<String>) {
         .map { it[0]..it[1] }
 
     val part1 = ranges.flatMap { it.filter(::isInvalidIdPart1) }.sum()
+    val part2 = ranges.flatMap { it.filter(::isInvalidIdPart2) }.sum()
 
     println(part1)
-
+    println(part2)
 }
