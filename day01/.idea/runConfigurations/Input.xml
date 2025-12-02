@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Input" type="JetRunConfigurationType">
-    <output_file path="output" is_save="true" />
+    <output_file path="output" />
     <option name="MAIN_CLASS_NAME" value="MainKt" />
     <module name="day01" />
     <option name="PROGRAM_PARAMETERS" value="input/input" />
