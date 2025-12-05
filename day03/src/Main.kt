@@ -1,30 +1,22 @@
 import java.io.File
+import kotlin.text.digitToInt
+
+fun getMaxJoltage(batteries: String, canTurnOn: Int) : Long {
+    if (canTurnOn <= 0) {
+        return 0
+    }
+    val i = batteries.dropLast(canTurnOn - 1).indices.maxBy { batteries[it] }
+    val pow = 10.toBigInteger().pow(canTurnOn - 1).toLong()
+    return batteries[i].digitToInt() * pow + getMaxJoltage(batteries.drop(i + 1), canTurnOn - 1)
+}
 
 fun main(args: Array<String>) {
     val filename = args[0]
 
     val lines = File(filename).readLines()
 
-    val part1 = lines.sumOf { line ->
-        val i = line.dropLast(1).indices.maxBy { line[it] }
-        val j = line.drop(i + 1).max()
-        line[i].digitToInt() * 10 + j.digitToInt()
-    }
-
-    val part2 = lines.sumOf { line ->
-        var n = 11
-        var joltage = 0L
-        var list = line
-
-        while (n >= 0) {
-            joltage *= 10
-            val i = list.dropLast(n).indices.maxBy { list[it] }
-            joltage += list[i].digitToInt()
-            list = list.drop(i + 1)
-            n--
-        }
-        joltage
-    }
+    val part1 = lines.sumOf { getMaxJoltage(it, 2) }
+    val part2 = lines.sumOf { getMaxJoltage(it, 12) }
 
     println(part1)
     println(part2)
