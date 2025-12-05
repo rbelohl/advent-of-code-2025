@@ -2,16 +2,12 @@ import java.io.File
 import kotlin.math.max
 import kotlin.math.min
 
-fun mergeRanges(range1: LongRange, range2: LongRange) : LongRange {
-    return min(range1.first, range2.first) .. max(range1.last, range2.last)
+fun mergeRanges(a: LongRange, b: LongRange) : LongRange {
+    return min(a.first, b.first) .. max(a.last, b.last)
 }
 
 fun rangesOverlap(a: LongRange, b: LongRange) : Boolean {
-    return if (a.first >= b.first) {
-        a.first <= b.last
-    } else {
-        b.first <= a.last
-    }
+    return a.contains(b.first) || b.contains(a.first)
 }
 
 fun main(args: Array<String>) {
@@ -30,20 +26,15 @@ fun main(args: Array<String>) {
        ranges.any { range -> range.contains(id) }
     }
 
-    val rs = mutableListOf<LongRange>()
+    val mergedRanges = mutableSetOf<LongRange>()
     ranges.forEach { range ->
-        val overlaps = rs.filter { rangesOverlap(it, range) }
-
-        if (overlaps.isNotEmpty()) {
-            val x = overlaps.fold(range) { acc, range -> mergeRanges(acc, range) }
-            rs.removeAll(overlaps)
-            rs.add(x)
-        } else {
-            rs.add(range)
-        }
+        val overlaps = mergedRanges.filter { rangesOverlap(it, range) }
+        val mergedRange = overlaps.fold(range,::mergeRanges)
+        mergedRanges.removeAll(overlaps.toSet())
+        mergedRanges.add(mergedRange)
     }
 
-    val part2 = rs.sumOf { it.last - it.first + 1 }
+    val part2 = mergedRanges.sumOf { it.last - it.first + 1 }
 
     println(part1)
     println(part2)
