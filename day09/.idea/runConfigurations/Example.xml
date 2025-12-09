@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Example" type="JetRunConfigurationType">
+    <output_file path="output" />
+    <option name="MAIN_CLASS_NAME" value="MainKt" />
+    <module name="day09" />
+    <option name="PROGRAM_PARAMETERS" value="input/example" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
